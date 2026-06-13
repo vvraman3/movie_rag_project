@@ -1,0 +1,121 @@
+
+##########################################################
+### Prompt 2
+##########################################################
+Now that I have the scenes and the metadata information (scene_metadata.json in data folder), I want to combine the scenes into small videos of 45-60 seconds with some overlap of the scenes(~3 secs) based on  hybrid combining strategy. I also want to create a new metadata file video_chunk_metadata.json that includes information as below:
+
+        chunk_data = {
+
+            "movie_name": movie_name,
+
+            "scene_id_list": <list_of_combined_scene_ids> ,
+
+            "video_file_path": os.path.abspath(filepath),
+
+            "start_timestamp": round(start_ts, 2),
+
+            "end_timestamp": round(end_ts, 2),
+
+            "duration": round(duration, 2),
+
+            "audio_file_path": <create an "audio" folder and place the audio files by extracting >
+            
+        }
+
+## "Hybrid" combining Strategy
+
+Visual Cut: For the scenes generated using PySceneDetect(scene_detection.py script), available in scenes folder. Extract the audio and store them in "scenes_audio" folder. Add the audio file path extracted linked to each scene into the existing scene_metadata.json file in "data" folder. ("audio_file_path": <create an "audio" folder and place the audio files by extracting >)
+
+Merging Strategy: If the audio is the same (e.g., the same song is playing or the same two people are talking), ignore the visual cuts and keep the segment as one "Short Video.". Also, combine the audios of all the scenes merged and add a new path to the chunk_data json. Create a folder "merged_audios" for storing these audios.
+
+
+##########################################################
+### Prompt 3 Modified # HF_TOKEN = "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"
+##########################################################
+Now that I have video chunks in video_chunks folder and audio chunks in audio_chunks folder, add more metadata information to "video_chunk_metadata.json" file in "data" folder so as to create our vector store for retrieval of relevant videos. Kindly note that the language in the video and the audio is in "Telugu". 
+
+For video chunks: 
+    - Extract the visual content in text using a vision model including information like entities, objects, Facial expressions to identify emotions like sadness/laughter/anger/romance/comedy, etc., identify explosions, crowd, vehicles, guns and any other tags helpful for retrieval.
+For audio files:
+    - Audio transcript converted from Telugu to English.
+    - Audio tags describing the conversion considering information like loudness, music mood(romantic/serious/tension,etc.,)screams, gunshots, laughter, crying, sudden changes in sounds and any other tags helpful for retrieval.
+
+Append the video_transcript, video_tags, audio_transcript, audio_tags to the existing "video_chunk_metadata.json" file in "data" folder as below.
+{
+    "movie_name": "Pushpa2",
+    "scene_id_list": [1,2,3,4,5,6,7,8,9,10],
+    "video_file_path": "C:\\Users\\thiru\\Downloads\\Movie_RAG\\video_chunks\\Pushpa2_chunk_1.mp4",
+    "start_timestamp": 0,
+    "end_timestamp": 46.24,
+    "duration": 46.24,
+    "audio_file_path": "C:\\Users\\thiru\\Downloads\\Movie_RAG\\audio_chunks\\Pushpa2_chunk_1.wav",
+    "video_transcript": <video transcript as is>,
+    "video_tags": <video_tags for metadata filtering during retrieval>,
+    "audio_transcript": <audio transcript as speaker diarization>,
+    "audio_tags": <audio_tags for metadata filtering during retrieval>
+
+}
+
+Generate a new python script for this. 
+
+##########################################################
+### Prompt 3
+##########################################################
+Now that I have video chunks in video_chunks folder and audio chunks in audio_chunks folder, add more metadata information to "video_chunk_metadata.json" file in "data" folder so as to create our vector store for retrieval of relevant videos. Kindly note that the language in the video and the audio is in "Telugu". 
+
+For video chunks: 
+    - Extract the visual content in text using a vision model including information like entities, objects, Faces, Speaker IDs, Sentiment, Emotions, Actions, fight/comedy/humor/romance/action, laughter, explosions, crowd, vehicles, guns,  and any other tags helpful for retrieval.
+For audio files:
+    - Transcript in a dialogue format using speaker diarization.
+    - Audio tags describing the conversion considering information like loudness, music mood(romantic/serious/tension,etc.,)screams, gunshots, laughter and any other tags helpful for retrieval.
+Append the video_transcript, video_tags, audio_transcript, audio_tags to the existing "video_chunk_metadata.json" file in "data" folder as below.
+{
+    "movie_name": "Pushpa2",
+    "scene_id_list": [1,2,3,4,5,6,7,8,9,10],
+    "video_file_path": "C:\\Users\\thiru\\Downloads\\Movie_RAG\\video_chunks\\Pushpa2_chunk_1.mp4",
+    "start_timestamp": 0,
+    "end_timestamp": 46.24,
+    "duration": 46.24,
+    "audio_file_path": "C:\\Users\\thiru\\Downloads\\Movie_RAG\\audio_chunks\\Pushpa2_chunk_1.wav",
+    "video_transcript": <video transcript as is>,
+    "video_tags": <video_tags for metadata filtering during retrieval>,
+    "audio_transcript": <audio transcript as speaker diarization>,
+    "audio_tags": <audio_tags for metadata filtering during retrieval>
+
+}
+
+Generate a new python script for this. 
+
+
+##########################################################
+### Prompt 4
+##########################################################
+Now that we have the required information, create a "vector store/database" that uses video and audio transcript information for embeddings and movie_name, video_tags, audio_tags as metadata filtering. 
+
+### sample information
+{
+    "movie_name": "Pushpa2",
+    "scene_id_list": [1,2,3,4,5,6,7,8,9,10],
+    "video_file_path": "C:\\Users\\thiru\\Downloads\\Movie_RAG\\video_chunks\\Pushpa2_chunk_1.mp4",
+    "start_timestamp": 0,
+    "end_timestamp": 46.24,
+    "duration": 46.24,
+    "audio_file_path": "C:\\Users\\thiru\\Downloads\\Movie_RAG\\audio_chunks\\Pushpa2_chunk_1.wav",
+    "video_transcript": <video transcript as is>,
+    "video_tags": <video_tags for metadata filtering during retrieval>,
+    "audio_transcript": <audio transcript as speaker diarization>,
+    "audio_tags": <audio_tags for metadata filtering during retrieval>
+
+}
+
+Generate a new python script for this. 
+
+
+##########################################################
+### Prompt 5
+##########################################################
+Create a streamlit application front-end python script which takes user query (UI something similar to youtube search). It should follow the below workflow:
+1. Take user query and extract key entities for metadata filtering.
+2. Do a hybrid search and retrieve the relevant videos based on keyword and semantic similarity.
+3. Re-rank the results using Cross-encoder and show top 5 relevant results.
+4. Show only the video links with thumbnails.

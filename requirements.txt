@@ -1,0 +1,26 @@
+streamlit
+opencv-python
+moviepy
+scenedetect
+openai-whisper
+transformers
+torch
+langchain
+faiss-cpu
+sentence-transformers
+pytube  # for downloading videos if needed
+numpy
+pandas
+huggingface_hub
+librosa
+openai-whisper
+pyannote.audio
+langchain-community
+faiss-cpu
+langchain-core
+langchain-huggingface
+Pillow
+google-genai
+chromadb
+#google.generativeai
+#yt-dlp # yt-dlp -S "ext:mp4:m4a" "https://www.youtube.com/watch?v=mR7Tcn5y2A4" -o "./downloads/maghaheera_movie.mp4"
