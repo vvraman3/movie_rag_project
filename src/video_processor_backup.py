@@ -1,7 +1,7 @@
 import json
 import os
 import time
-import google.generativeai as genai
+from google import genai
 from dotenv import load_dotenv
 
 # Load API Key from your .env file

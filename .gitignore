@@ -1,0 +1,8 @@
+videos/
+video_chunks/
+audio_chunks/
+scenes/
+scenes_audio/
+backup/
+src/.env
+src/__pycache__/
