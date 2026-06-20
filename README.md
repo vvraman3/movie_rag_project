@@ -1,4 +1,4 @@
-# Movie RAG Solution
+# Movie RAG Solution Documentation
 
 This project builds a Retrieval-Augmented Generation (RAG) system for movie videos, allowing users to query for specific scenes (e.g., "comedy scenes from movie X") and retrieve/display relevant video clips via a chatbot interface.
 
