@@ -68,4 +68,3 @@ This workflow provides a modular approach, starting with basic scene extraction 
 
 ## token
 huggingface-cli login
-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
